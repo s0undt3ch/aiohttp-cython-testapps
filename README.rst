@@ -1,3 +1,10 @@
+Versions Used
+=============
+* Python 3.5.2
+* Cython 0.25.1
+* aiohttp 1.1.6
+* aiohttp-session 0.8.0
+
 testapp1
 ========
 
