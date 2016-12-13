@@ -333,3 +333,45 @@ And the traceback on the server side:
   INFO:aiohttp.access:::1 - - [13/Dec/2016:13:57:57 +0000] "GET /new HTTP/1.1" 500 170 "-" "curl/7.51.0"
   /home/vampas/.dotfiles/.ext/pyenv/versions/Raas-3.5.2-features-aiohttp/lib/python3.5/site-packages/aiohttp/server.py:292: RuntimeWarning: coroutine 'new_handler' was never awaited
     yield from self.handle_error(500, message, None, exc)
+
+
+testapp4
+========
+
+testapp4 decorates the new ``async def`` syntax handler with ``@async.coroutine``:
+
+Run testapp4 in non compiled mode:
+
+.. code-block:: sh
+
+   python -c 'import testapp4.app'
+   DEBUG:asyncio:Using selector: EpollSelector
+  ======== Running on http://localhost:8080 ========
+  (Press CTRL+C to quit)
+
+
+Now test the old and the new asyncio syntax handlers
+
+.. code-block:: sh
+
+   curl -sS http://localhost:8080/old && curl -sS http://localhost:8080/new
+  OLD SYNTAX
+  NEW SYNTAX
+
+And now, let's run the compiled version of testapp4:
+
+.. code-block:: sh
+
+   cd /tmp && python -c 'import testapp4.app'
+   DEBUG:asyncio:Using selector: EpollSelector
+  ======== Running on http://localhost:8080 ========
+  (Press CTRL+C to quit)
+
+
+Now test the old and the new asyncio syntax handlers:
+
+.. code-block:: sh
+
+   curl -sS http://localhost:8080/old && curl -sS http://localhost:8080/new
+  OLD SYNTAX
+  NEW SYNTAX
