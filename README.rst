@@ -179,7 +179,7 @@ And the traceback on the server side:
 testapp2
 ========
 
-testapp2 just import the ``inspect`` module to try and trigger the cython asyncio patching.
+testapp2 just imports the ``inspect`` module in ``testapp2.app`` to try and trigger the cython asyncio patching.
 
 Run testapp2 in non compiled mode:
 
