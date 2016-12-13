@@ -1,5 +1,4 @@
 import asyncio
-import inspect
 import logging
 from testapp4 import old_handlers
 from testapp4 import new_handlers

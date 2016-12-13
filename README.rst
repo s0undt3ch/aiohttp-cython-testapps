@@ -384,4 +384,4 @@ Now test the old and the new asyncio syntax handlers:
   NEW SYNTAX
 
 
-On this ``testapp4`` we can safely remove the ``inspect`` import from the new syntax handler but not from the old syntax handler.
+On this ``testapp4`` we can safely remove the ``inspect`` import from the module where the ``aiohttp`` web application is setup.
