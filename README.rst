@@ -338,7 +338,7 @@ And the traceback on the server side:
 testapp4
 ========
 
-testapp4 decorates the new ``async def`` syntax handler with ``@async.coroutine``:
+testapp4 decorates the new ``async def`` syntax handler with ``@asyncio.coroutine``:
 
 Run testapp4 in non compiled mode:
 
