@@ -267,7 +267,7 @@ And the traceback on the server side:
 testapp3
 ========
 
-testapp3 just import the ``inspect`` module on the request handlers modules to try and trigger the cython asyncio patching.
+testapp3 just imports the ``inspect`` module on the request handlers modules to try and trigger the cython asyncio patching.
 
 Run testapp3 in non compiled mode:
 
