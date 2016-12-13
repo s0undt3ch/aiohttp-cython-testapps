@@ -121,7 +121,7 @@ And now, let's run the compiled version of testapp1:
   (Press CTRL+C to quit)
 
 
-Now test the old and the new asyncio syntax handlers
+Now test the old and the new asyncio syntax handlers:
 
 .. code-block:: sh
 
@@ -172,5 +172,93 @@ And the traceback on the server side:
       result = yield from result
   TypeError: 'coroutine' object is not iterable
   INFO:aiohttp.access:::1 - - [13/Dec/2016:13:42:37 +0000] "GET /new HTTP/1.1" 500 170 "-" "curl/7.51.0"
+  /home/vampas/.dotfiles/.ext/pyenv/versions/Raas-3.5.2-features-aiohttp/lib/python3.5/site-packages/aiohttp/server.py:292: RuntimeWarning: coroutine 'new_handler' was never awaited
+    yield from self.handle_error(500, message, None, exc)
+
+
+testapp2
+========
+
+testapp2 just import the ``inspect`` module to try and trigger the cython asyncio patching.
+
+Run testapp2 in non compiled mode:
+
+.. code-block:: sh
+
+   python -c 'import testapp2.app'
+   DEBUG:asyncio:Using selector: EpollSelector
+  ======== Running on http://localhost:8080 ========
+  (Press CTRL+C to quit)
+
+
+Now test the old and the new asyncio syntax handlers
+
+.. code-block:: sh
+
+   curl -sS http://localhost:8080/old && curl -sS http://localhost:8080/new
+  OLD SYNTAX
+  NEW SYNTAX
+
+And now, let's run the compiled version of testapp2:
+
+.. code-block:: sh
+
+   cd /tmp && python -c 'import testapp2.app'
+   DEBUG:asyncio:Using selector: EpollSelector
+  ======== Running on http://localhost:8080 ========
+  (Press CTRL+C to quit)
+
+
+Now test the old and the new asyncio syntax handlers:
+
+.. code-block:: sh
+
+   curl -sS http://localhost:8080/old && curl -sS http://localhost:8080/new
+
+  <html>
+    <head>
+      <title>500 Internal Server Error</title>
+    </head>
+    <body>
+      <h1>500 Internal Server Error</h1>
+      Server got itself in trouble
+    </body>
+  </html>
+  <html>
+    <head>
+      <title>500 Internal Server Error</title>
+    </head>
+    <body>
+      <h1>500 Internal Server Error</h1>
+      Server got itself in trouble
+    </body>
+  </html>
+
+And the traceback on the server side:
+
+.. code-block:: sh
+
+  ERROR:aiohttp.web:Error handling request
+  Traceback (most recent call last):
+    File "/home/vampas/.dotfiles/.ext/pyenv/versions/Raas-3.5.2-features-aiohttp/lib/python3.5/site-packages/aiohttp/server.py", line 265, in start
+      yield from self.handle_request(message, payload)
+    File "/home/vampas/.dotfiles/.ext/pyenv/versions/Raas-3.5.2-features-aiohttp/lib/python3.5/site-packages/aiohttp/web.py", line 96, in handle_request
+      resp = yield from handler(request)
+    File "/home/vampas/.dotfiles/.ext/pyenv/versions/Raas-3.5.2-features-aiohttp/lib/python3.5/site-packages/aiohttp_session/__init__.py", line 134, in middleware
+      raise RuntimeError("Expect response, not {!r}", type(response))
+  RuntimeError: ('Expect response, not {!r}', <class 'generator'>)
+  INFO:aiohttp.access:::1 - - [13/Dec/2016:13:51:46 +0000] "GET /old HTTP/1.1" 500 170 "-" "curl/7.51.0"
+  ERROR:aiohttp.web:Error handling request
+  Traceback (most recent call last):
+    File "/home/vampas/.dotfiles/.ext/pyenv/versions/Raas-3.5.2-features-aiohttp/lib/python3.5/site-packages/aiohttp/server.py", line 265, in start
+      yield from self.handle_request(message, payload)
+    File "/home/vampas/.dotfiles/.ext/pyenv/versions/Raas-3.5.2-features-aiohttp/lib/python3.5/site-packages/aiohttp/web.py", line 96, in handle_request
+      resp = yield from handler(request)
+    File "/home/vampas/.dotfiles/.ext/pyenv/versions/Raas-3.5.2-features-aiohttp/lib/python3.5/site-packages/aiohttp_session/__init__.py", line 129, in middleware
+      response = yield from handler(request)
+    File "/home/vampas/.dotfiles/.ext/pyenv/versions/Raas-3.5.2-features-aiohttp/lib/python3.5/site-packages/aiohttp/web_urldispatcher.py", line 113, in handler_wrapper
+      result = yield from result
+  TypeError: 'coroutine' object is not iterable
+  INFO:aiohttp.access:::1 - - [13/Dec/2016:13:51:46 +0000] "GET /new HTTP/1.1" 500 170 "-" "curl/7.51.0"
   /home/vampas/.dotfiles/.ext/pyenv/versions/Raas-3.5.2-features-aiohttp/lib/python3.5/site-packages/aiohttp/server.py:292: RuntimeWarning: coroutine 'new_handler' was never awaited
     yield from self.handle_error(500, message, None, exc)
