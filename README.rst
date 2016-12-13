@@ -375,3 +375,6 @@ Now test the old and the new asyncio syntax handlers:
    curl -sS http://localhost:8080/old && curl -sS http://localhost:8080/new
   OLD SYNTAX
   NEW SYNTAX
+
+
+On this ``testapp4`` we can safely remove the ``inspect`` import from the new syntax handler but not from the old syntax handler.
